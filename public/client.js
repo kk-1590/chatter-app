@@ -20,7 +20,10 @@ function sendMessage(message) {
         message : message.trim()
     }
     //Append
-    appendMessage(msg,'outgoing')
+    appendMessage(msg,'outgoing');
+
+    textarea.value = '';
+    scrollToBottom();
 
     //send to server
     socket.emit('message',msg);
@@ -42,4 +45,16 @@ function appendMessage(msg,type){
     mainDiv.innerHTML = markup;
 
     messageArea.appendChild(mainDiv);
+}
+
+//Receive message
+
+socket.on('message',(msg) => {
+    appendMessage(msg,'incoming');
+    scrollToBottom();
+})
+
+
+function scrollToBottom(){
+    messageArea.scrollTop = messageArea.scrollHeight;
 }
